@@ -4,18 +4,20 @@ import java.util.Iterator;
 
 public class QueueImpl implements Queue {
 
+    private ListImpl queue;
+
     public QueueImpl() {
-        
+        queue = new ListImpl();
     }
 
     @Override
     public void clear() {
-        
+        queue.clear();
     }
 
     @Override
     public int size() {
-        return 0;
+        return queue.size();
     }
 
     public Iterator<Object> iterator() {
@@ -26,37 +28,48 @@ public class QueueImpl implements Queue {
 
         @Override
         public boolean hasNext() {
-            return false;
+            return queue.iterator().hasNext();
         }
 
         @Override
         public Object next() {
-            return null;
+            return queue.iterator().next();
         }
 
     }
 
     @Override
     public void enqueue(Object element) {
-        
+        queue.addLast(element);
     }
 
     @Override
     public Object dequeue() {
-        return null;
+        Object object = queue.getFirst();
+        queue.removeFirst();
+        return object;
     }
 
     @Override
     public Object top() {
-        return null;
+        return queue.getFirst();
     }
 
     @Override
     public String toString() {
-        return null;
+        return queue.toString();
     }
 
+
     public static void main(String[] args) {
+
+        Queue queue = new QueueImpl();
+
+        for (int i = 0; i < 10; i++) {
+            queue.enqueue(i + 1);
+        }
+
+        System.out.println(queue.toString());
 
     }
 
