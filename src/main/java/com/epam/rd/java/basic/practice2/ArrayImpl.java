@@ -1,6 +1,7 @@
 package com.epam.rd.java.basic.practice2;
 
-import java.util.*;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class ArrayImpl implements Array {
 
@@ -8,18 +9,21 @@ public class ArrayImpl implements Array {
 
     private int size;
 
+    /**
+     *
+     * public ArrayImpl(int initialCapacity) {
+     *         if (initialCapacity >= 0) {
+     *             elementData = new Object[initialCapacity];
+     *         } else {
+     *             throw new IllegalArgumentException("Illegal Capacity: " + initialCapacity);
+     *         }
+     *     }
+     *
+     *     public ArrayImpl() {
+     *         elementData = new Object[0];
+     *     }
+     */
 
-    public ArrayImpl(int initialCapacity) {
-        if (initialCapacity >= 0) {
-            elementData = new Object[initialCapacity];
-        } else {
-            throw new IllegalArgumentException("Illegal Capacity: " + initialCapacity);
-        }
-    }
-
-    public ArrayImpl() {
-        elementData = new Object[0];
-    }
 
 
     @Override
@@ -125,19 +129,9 @@ public class ArrayImpl implements Array {
         return stringBuilder.toString().trim();
     }
 
-
     @SuppressWarnings("all")
     public static void main(String[] args) {
 
-        ArrayImpl array = new ArrayImpl();
-
-        array.add(1);
-        array.add(2);
-        array.add(3);
-        array.add(4);
-        array.add(5);
-
-        System.out.println(array.get(2));
 
     }
 
