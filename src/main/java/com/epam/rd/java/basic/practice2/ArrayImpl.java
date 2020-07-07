@@ -1,33 +1,32 @@
 package com.epam.rd.java.basic.practice2;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 public class ArrayImpl implements Array {
 
-    private static final int DEFAULT_CAPACITY = 10;
-
-    private Object[] objectData;
+    private Object[] elementData;
 
     private int size;
 
-    public ArrayImpl() {
-        objectData = new Object[DEFAULT_CAPACITY];
-    }
 
     public ArrayImpl(int initialCapacity) {
-        if (initialCapacity < 0) {
+        if (initialCapacity >= 0) {
+            elementData = new Object[initialCapacity];
+        } else {
             throw new IllegalArgumentException("Illegal Capacity: " + initialCapacity);
         }
-        objectData = new Object[initialCapacity];
     }
+
+    public ArrayImpl() {
+        elementData = new Object[0];
+    }
+
 
     @Override
     public void clear() {
-        for (int i = 0; i < size; i++) {
-            objectData[i] = null;
+
+        for (int i = 0; i < elementData.length; i++) {
+            elementData[i] = null;
         }
 
         size = 0;
@@ -35,7 +34,7 @@ public class ArrayImpl implements Array {
 
     @Override
     public int size() {
-        return size;
+        return elementData.length;
     }
 
     @Override
@@ -49,110 +48,96 @@ public class ArrayImpl implements Array {
 
         @Override
         public boolean hasNext() {
-            return cursor != size;
+            return cursor != elementData.length;
         }
 
         @Override
         public Object next() {
-            if (cursor == size) {
+            if (!hasNext()){
                 throw new NoSuchElementException();
             }
 
-            return objectData[cursor++];
+            return elementData[cursor++];
         }
 
     }
 
     @Override
     public void add(Object element) {
-        if (size == objectData.length) {
-            throw new IndexOutOfBoundsException();
+        if (size == elementData.length) {
+            extendStorage();
         }
-        objectData[size++] = element;
+
+        elementData[size++] = element;
+    }
+
+    private void extendStorage() {
+        Object[] tempData = elementData;
+        elementData = new Object[tempData.length + 1];
+        System.arraycopy(tempData, 0, elementData, 0, tempData.length);
     }
 
     @Override
     public void set(int index, Object element) {
-        if (index < 0 || index > objectData.length - 1) {
-            throw new IllegalArgumentException("Illegal Index: " + index);
-        }
-
-        if (index > size) {
-            throw new IndexOutOfBoundsException();
-        }
-
-        objectData[index] = element;
-
+        rangeCheck(index);
+        elementData[index] = element;
     }
 
     @Override
     public Object get(int index) {
-
-        if (index < 0 || index > objectData.length - 1) {
-            throw new IllegalArgumentException("Illegal Index: " + index);
-        }
-
-        if (index > size) {
-            throw new IndexOutOfBoundsException();
-        }
-
-        return objectData[index];
+        rangeCheck(index);
+        return elementData[index];
     }
 
     @Override
     public int indexOf(Object element) {
 
-        for (int i = 0; i < size; i++) {
-            if (element.equals(objectData[i])) {
+        for (int i = 0; i < elementData.length; i++){
+            if (element.equals(elementData[i])){
                 return i;
             }
         }
 
-        throw new NoSuchElementException();
+        return -1;
     }
 
     @Override
     public void remove(int index) {
-        if (index < 0 || index > objectData.length - 1) {
-            throw new IllegalArgumentException("Illegal Index: " + index);
-        }
+        rangeCheck(index);
+        elementData[index] = null;
+    }
 
-        if (index > size) {
+    private void rangeCheck(int index) {
+        if (index < 0 || index > elementData.length - 1) {
             throw new IndexOutOfBoundsException();
         }
-
-        objectData[index] = null;
-        System.arraycopy(objectData, index + 1, objectData, index, --size - index);
     }
 
     @Override
     public String toString() {
-
         StringBuilder stringBuilder = new StringBuilder();
-
         Iterator<Object> iterator = iterator();
 
-        while (iterator.hasNext()) {
+        while (iterator.hasNext()){
             stringBuilder.append(" " + iterator.next().toString());
         }
 
         return stringBuilder.toString().trim();
     }
 
+
+    @SuppressWarnings("all")
     public static void main(String[] args) {
 
         ArrayImpl array = new ArrayImpl();
 
+        array.add(1);
+        array.add(2);
+        array.add(3);
+        array.add(4);
+        array.add(5);
 
-        for (int i = 0; i < 7; i++) {
-            array.add(i);
-        }
-
-        System.out.println(array.toString());
-
-        array.set(2, 100);
-
-        System.out.println(array.toString());
+        System.out.println(array.get(2));
 
     }
 
