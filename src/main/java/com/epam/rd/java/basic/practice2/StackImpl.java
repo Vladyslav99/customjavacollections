@@ -4,20 +4,15 @@ import java.util.Iterator;
 
 public class StackImpl implements Stack {
 
-    private ListImpl stack;
-
-    public StackImpl(){
-        stack = new ListImpl();
-    }
 
     @Override
     public void clear() {
-        stack.clear();
+
     }
 
     @Override
     public int size() {
-        return stack.size();
+        return 0;
     }
 
     public Iterator<Object> iterator() {
@@ -25,16 +20,6 @@ public class StackImpl implements Stack {
     }
 
     private class IteratorImpl implements Iterator<Object> {
-
-//        @Override
-//        public boolean hasNext() {
-//            return stack.iterator().hasNext();
-//        }
-//
-//        @Override
-//        public Object next() {
-//            return stack.getLast();
-//        }
 
         @Override
         public boolean hasNext() {
@@ -50,45 +35,26 @@ public class StackImpl implements Stack {
 
     @Override
     public void push(Object element) {
-        stack.addLast(element);
+
     }
 
     @Override
     public Object pop() {
-        Object object = stack.getLast();
-        stack.removeLast();
-        return object;
+        return null;
     }
 
     @Override
     public Object top() {
-        return stack.getLast();
+        return null;
     }
 
     @Override
     public String toString() {
-
-//        StringBuilder stringBuilder = new StringBuilder();
-//
-//        Iterator<Object> iterator = iterator();
-//
-//        while (iterator.hasNext()) {
-//            stringBuilder.append(", " + stack.getLast().toString());
-//        }
-//
-//        return stringBuilder.toString().replaceFirst(",", "").trim();
-
         return null;
     }
 
     public static void main(String[] args) {
-        StackImpl stack = new StackImpl();
 
-        for (int i = 0; i < 10; i++) {
-            stack.push(i + 1);
-        }
-
-//        System.out.println(stack.toString());
     }
 
 }

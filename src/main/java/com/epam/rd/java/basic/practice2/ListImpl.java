@@ -13,7 +13,7 @@ public class ListImpl implements List {
     @SuppressWarnings("all")
     @Override
     public void clear() {
-        for (Node node = first; node != null;){
+        for (Node node = first; node != null; ) {
             Node next = node.next;
             node.prev = null;
             node.next = null;
@@ -143,9 +143,9 @@ public class ListImpl implements List {
     public boolean remove(Object element) {
         Iterator<Object> iterator = iterator();
         Node currentNode = first;
-        while (iterator.hasNext()){
+        while (iterator.hasNext()) {
             Object currentElement = iterator.next();
-            if (currentElement.equals(element)){
+            if (currentElement.equals(element)) {
                 unlink(currentNode);
                 return true;
             }
@@ -155,20 +155,20 @@ public class ListImpl implements List {
         return false;
     }
 
-    private void unlink(Node node){
+    private void unlink(Node node) {
         final Node prev = node.prev;
         final Node next = node.next;
 
-        if (prev == null){
+        if (prev == null) {
             first = next;
-        }else {
+        } else {
             prev.next = next;
             node.prev = null;
         }
 
-        if (next == null){
+        if (next == null) {
             last = prev;
-        }else {
+        } else {
             next.prev = prev;
             node.next = null;
         }
@@ -215,13 +215,30 @@ public class ListImpl implements List {
     }
 
     public static void main(String[] args) {
-        ListImpl list = new ListImpl();
+        List list = new ListImpl();
+
+        for (int i = 0; i < 10; i++) {
+            list.addFirst(i + 1);
+        }
+
+        Iterator iterator = list.iterator();
+        while (iterator.hasNext()){
+            System.out.print(iterator.next() + " ");
+        }
+
+        System.out.println();
+
+        list.clear();
 
         for (int i = 0; i < 10; i++) {
             list.addLast(i + 1);
         }
 
-        System.out.println(list.toString());
+        iterator = list.iterator();
+        while (iterator.hasNext()){
+            System.out.print(iterator.next() + " ");
+        }
+
 
     }
 }
