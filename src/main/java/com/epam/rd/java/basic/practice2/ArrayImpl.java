@@ -129,6 +129,7 @@ public class ArrayImpl implements Array {
         }
     }
 
+    @SuppressWarnings("all")
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder("[");

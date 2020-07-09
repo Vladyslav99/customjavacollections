@@ -71,6 +71,7 @@ public class QueueImpl implements Queue {
         total++;
     }
 
+
     private void resize(int newCapacity) {
         Object[] tempElements = new Object[newCapacity];
 
@@ -108,6 +109,7 @@ public class QueueImpl implements Queue {
         return elementData[first];
     }
 
+    @SuppressWarnings("all")
     @Override
     public String toString() {
 

@@ -94,13 +94,13 @@ public class StackImpl implements Stack {
         return elementData[top - 1];
     }
 
+    @SuppressWarnings("all")
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder("[");
 
-        Iterator<Object> iterator = iterator();
-        while (iterator.hasNext()) {
-            stringBuilder.append(iterator.next() + ", ");
+        for(int i = 0; i < top; i++){
+            stringBuilder.append(elementData[i] + ", ");
         }
 
         if (stringBuilder.length() > 2) {

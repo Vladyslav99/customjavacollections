@@ -184,6 +184,7 @@ public class ListImpl implements List {
         return false;
     }
 
+    @SuppressWarnings("all")
     @Override
     public String toString() {
 
@@ -247,6 +248,7 @@ public class ListImpl implements List {
             next.prev = prev;
             node.next = null;
         }
+        size--;
     }
 
     @SuppressWarnings("all")
