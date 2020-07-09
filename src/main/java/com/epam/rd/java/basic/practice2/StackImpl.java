@@ -61,15 +61,15 @@ public class StackImpl implements Stack {
 
     private void expandSize() {
         int newSize = (int) (elementData.length * 1.5);
-        Object[] elements = elementData;
+        Object[] tempElements = elementData;
         elementData = new Object[newSize];
-        System.arraycopy(elements, 0, elementData, 0, elements.length);
+        System.arraycopy(tempElements, 0, elementData, 0, tempElements.length);
     }
 
     @Override
     public Object pop() {
         if (top == 0) {
-            throw new NoSuchElementException();
+            return null;
         }
         Object object = elementData[--top];
         elementData[top] = null;
@@ -79,24 +79,32 @@ public class StackImpl implements Stack {
     @Override
     public Object top() {
         if (top == 0) {
-            throw new NoSuchElementException();
+            return null;
         }
         return elementData[top - 1];
     }
 
     @Override
     public String toString() {
-        StringBuilder stringBuilder = new StringBuilder();
+        StringBuilder stringBuilder = new StringBuilder("[");
 
         for (int i = 0; i < top; i++) {
-            stringBuilder.append(", " + elementData[i]);
+            stringBuilder.append(elementData[i] + ", ");
         }
 
-        return stringBuilder.toString().replaceFirst(",", "").trim();
+        if (stringBuilder.length() > 2) {
+            return stringBuilder.deleteCharAt(stringBuilder.length() - 2)
+                    .insert(stringBuilder.length() - 1, "]")
+                    .toString()
+                    .trim();
+        }
+
+        return stringBuilder.append("]").toString();
     }
 
     @SuppressWarnings("all")
     public static void main(String[] args) {
+
 
     }
 

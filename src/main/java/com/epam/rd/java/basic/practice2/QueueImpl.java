@@ -80,7 +80,7 @@ public class QueueImpl implements Queue {
     public Object dequeue() {
 
         if (total == 0) {
-            throw new NoSuchElementException();
+            return null;
         }
         Object element = elementData[first];
         elementData[first] = null;
@@ -104,13 +104,20 @@ public class QueueImpl implements Queue {
     @Override
     public String toString() {
 
-        StringBuilder stringBuilder = new StringBuilder();
+        StringBuilder stringBuilder = new StringBuilder("[");
 
         for (int i = 0; i < total; i++) {
-            stringBuilder.append(", " + elementData[(first + i) % elementData.length]);
+            stringBuilder.append(elementData[(first + i) % elementData.length] + ", ");
         }
 
-        return stringBuilder.toString().replaceFirst(",", "").trim();
+        if (stringBuilder.length() > 2) {
+            return stringBuilder.deleteCharAt(stringBuilder.length() - 2)
+                    .insert(stringBuilder.length() - 1, "]")
+                    .toString()
+                    .trim();
+        }
+
+        return stringBuilder.append("]").toString();
     }
 
 

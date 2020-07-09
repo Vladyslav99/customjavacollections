@@ -5,40 +5,35 @@ import java.util.NoSuchElementException;
 
 public class ArrayImpl implements Array {
 
+    private static final int DEFAULT_CAPACITY = 16;
+
     private Object[] elementData;
 
     private int size;
 
-    /**
-     *
-     * public ArrayImpl(int initialCapacity) {
-     *         if (initialCapacity >= 0) {
-     *             elementData = new Object[initialCapacity];
-     *         } else {
-     *             throw new IllegalArgumentException("Illegal Capacity: " + initialCapacity);
-     *         }
-     *     }
-     *
-     *     public ArrayImpl() {
-     *         elementData = new Object[0];
-     *     }
-     */
+    public ArrayImpl(int initialCapacity) {
+        if (initialCapacity >= 0) {
+            elementData = new Object[initialCapacity];
+        } else {
+            throw new IllegalArgumentException("Illegal Capacity: " + initialCapacity);
+        }
+    }
 
-
+    public ArrayImpl() {
+        elementData = new Object[DEFAULT_CAPACITY];
+    }
 
     @Override
     public void clear() {
-
-        for (int i = 0; i < elementData.length; i++) {
+        for (int i = 0; i < size; i++) {
             elementData[i] = null;
         }
-
         size = 0;
     }
 
     @Override
     public int size() {
-        return elementData.length;
+        return size;
     }
 
     @Override
@@ -52,12 +47,12 @@ public class ArrayImpl implements Array {
 
         @Override
         public boolean hasNext() {
-            return cursor != elementData.length;
+            return cursor != size;
         }
 
         @Override
         public Object next() {
-            if (!hasNext()){
+            if (!hasNext()) {
                 throw new NoSuchElementException();
             }
 
@@ -69,16 +64,16 @@ public class ArrayImpl implements Array {
     @Override
     public void add(Object element) {
         if (size == elementData.length) {
-            extendStorage();
+            resizeCapacity(size * 2);
         }
 
         elementData[size++] = element;
     }
 
-    private void extendStorage() {
-        Object[] tempData = elementData;
-        elementData = new Object[tempData.length + 1];
-        System.arraycopy(tempData, 0, elementData, 0, tempData.length);
+    private void resizeCapacity(int newCapacity) {
+        Object[] tempElements = elementData;
+        elementData = new Object[newCapacity];
+        System.arraycopy(tempElements, 0, elementData, 0, size);
     }
 
     @Override
@@ -95,38 +90,46 @@ public class ArrayImpl implements Array {
 
     @Override
     public int indexOf(Object element) {
-
-        for (int i = 0; i < elementData.length; i++){
-            if (element.equals(elementData[i])){
+        for (int i = 0; i < size; i++) {
+            if (elementData[i].equals(element)) {
                 return i;
             }
         }
-
         return -1;
     }
 
     @Override
     public void remove(int index) {
         rangeCheck(index);
-        elementData[index] = null;
+        System.arraycopy(elementData, index + 1, elementData, index, size - 1 - index);
+        if (--size > 0 && size == elementData.length / 4) {
+            resizeCapacity(elementData.length / 2);
+        }
     }
 
     private void rangeCheck(int index) {
-        if (index < 0 || index > elementData.length - 1) {
+        if (index < 0 || index > size) {
             throw new IndexOutOfBoundsException();
         }
     }
 
     @Override
     public String toString() {
-        StringBuilder stringBuilder = new StringBuilder();
-        Iterator<Object> iterator = iterator();
+        StringBuilder stringBuilder = new StringBuilder("[");
 
-        while (iterator.hasNext()){
-            stringBuilder.append(" " + iterator.next().toString());
+        for (int i = 0; i < size; i++) {
+            stringBuilder.append(elementData[i] + ", ");
         }
 
-        return stringBuilder.toString().trim();
+        if (stringBuilder.length() > 2) {
+            return stringBuilder.deleteCharAt(stringBuilder.length() - 2)
+                    .insert(stringBuilder.length() - 1, "]")
+                    .toString()
+                    .trim();
+        }
+
+
+        return stringBuilder.append("]").toString();
     }
 
     @SuppressWarnings("all")
@@ -136,3 +139,12 @@ public class ArrayImpl implements Array {
     }
 
 }
+
+
+
+
+
+
+
+
+

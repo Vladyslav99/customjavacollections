@@ -155,37 +155,25 @@ public class ListImpl implements List {
         return false;
     }
 
-    private void unlink(Node node) {
-        final Node prev = node.prev;
-        final Node next = node.next;
-
-        if (prev == null) {
-            first = next;
-        } else {
-            prev.next = next;
-            node.prev = null;
-        }
-
-        if (next == null) {
-            last = prev;
-        } else {
-            next.prev = prev;
-            node.next = null;
-        }
-    }
-
     @Override
     public String toString() {
 
-        StringBuilder stringBuilder = new StringBuilder();
+        StringBuilder stringBuilder = new StringBuilder("[");
 
         Iterator<Object> iterator = iterator();
 
         while (iterator.hasNext()) {
-            stringBuilder.append(", " + iterator.next().toString());
+            stringBuilder.append(iterator.next() + ", ");
         }
 
-        return stringBuilder.toString().replaceFirst(",", "").trim();
+        if (stringBuilder.length() > 2) {
+            return stringBuilder.deleteCharAt(stringBuilder.length() - 2)
+                    .insert(stringBuilder.length() - 1, "]")
+                    .toString()
+                    .trim();
+        }
+
+        return stringBuilder.append("]").toString();
     }
 
     private void unlinkLast(Node l) {
@@ -214,30 +202,28 @@ public class ListImpl implements List {
         size--;
     }
 
+    private void unlink(Node node) {
+        final Node prev = node.prev;
+        final Node next = node.next;
+
+        if (prev == null) {
+            first = next;
+        } else {
+            prev.next = next;
+            node.prev = null;
+        }
+
+        if (next == null) {
+            last = prev;
+        } else {
+            next.prev = prev;
+            node.next = null;
+        }
+    }
+
+    @SuppressWarnings("all")
     public static void main(String[] args) {
-        List list = new ListImpl();
 
-        for (int i = 0; i < 10; i++) {
-            list.addFirst(i + 1);
-        }
-
-        Iterator iterator = list.iterator();
-        while (iterator.hasNext()){
-            System.out.print(iterator.next() + " ");
-        }
-
-        System.out.println();
-
-        list.clear();
-
-        for (int i = 0; i < 10; i++) {
-            list.addLast(i + 1);
-        }
-
-        iterator = list.iterator();
-        while (iterator.hasNext()){
-            System.out.print(iterator.next() + " ");
-        }
 
 
     }
