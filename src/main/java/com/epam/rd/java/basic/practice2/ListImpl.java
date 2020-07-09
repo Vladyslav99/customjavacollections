@@ -129,11 +129,21 @@ public class ListImpl implements List {
 
     @Override
     public Object search(Object element) {
+
         Iterator<Object> iterator = iterator();
-        while (iterator.hasNext()) {
-            Object currentElement = iterator.next();
-            if (currentElement.equals(element)) {
-                return currentElement;
+
+        if (element == null) {
+            while (iterator.hasNext()) {
+                if (iterator.next() == null) {
+                    return null;
+                }
+            }
+        } else {
+            while (iterator.hasNext()) {
+                Object currentElement = iterator.next();
+                if (element.equals(currentElement)) {
+                    return currentElement;
+                }
             }
         }
         return null;
@@ -143,13 +153,24 @@ public class ListImpl implements List {
     public boolean remove(Object element) {
         Iterator<Object> iterator = iterator();
         Node currentNode = first;
-        while (iterator.hasNext()) {
-            Object currentElement = iterator.next();
-            if (currentElement.equals(element)) {
-                unlink(currentNode);
-                return true;
+
+        if (element == null) {
+            while (iterator.hasNext()) {
+                if (iterator.next() == null) {
+                    unlink(currentNode);
+                    return true;
+                }
+                currentNode = currentNode.next;
             }
-            currentNode = currentNode.next;
+        } else {
+            while (iterator.hasNext()){
+                Object currentObject = iterator.next();
+                if (element.equals(currentObject)){
+                    unlink(currentNode);
+                    return true;
+                }
+                currentNode = currentNode.next;
+            }
         }
 
         return false;
@@ -223,8 +244,6 @@ public class ListImpl implements List {
 
     @SuppressWarnings("all")
     public static void main(String[] args) {
-
-
 
     }
 }

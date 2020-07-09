@@ -90,11 +90,20 @@ public class ArrayImpl implements Array {
 
     @Override
     public int indexOf(Object element) {
-        for (int i = 0; i < size; i++) {
-            if (elementData[i].equals(element)) {
-                return i;
+        if (element == null) {
+            for (int i = 0; i < size; i++) {
+                if (elementData[i] == null) {
+                    return i;
+                }
+            }
+        } else {
+            for (int i = 0; i < size; i++) {
+                if (element.equals(elementData[i])) {
+                    return i;
+                }
             }
         }
+
         return -1;
     }
 
@@ -134,7 +143,6 @@ public class ArrayImpl implements Array {
 
     @SuppressWarnings("all")
     public static void main(String[] args) {
-
 
     }
 
