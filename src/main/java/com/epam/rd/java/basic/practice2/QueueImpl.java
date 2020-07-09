@@ -109,10 +109,8 @@ public class QueueImpl implements Queue {
         return elementData[first];
     }
 
-    @SuppressWarnings("all")
     @Override
     public String toString() {
-
         StringBuilder stringBuilder = new StringBuilder("[");
 
         Iterator<Object> iterator = iterator();

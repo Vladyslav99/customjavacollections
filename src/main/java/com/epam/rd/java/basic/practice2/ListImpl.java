@@ -109,7 +109,7 @@ public class ListImpl implements List {
     public void removeFirst() {
         final Node f = first;
         if (f == null) {
-            throw new NoSuchElementException();
+            return;
         }
         unlinkFirst(f);
     }
@@ -118,7 +118,7 @@ public class ListImpl implements List {
     public void removeLast() {
         final Node l = last;
         if (l == null) {
-            throw new NoSuchElementException();
+            return;
         }
         unlinkLast(l);
     }
@@ -126,12 +126,18 @@ public class ListImpl implements List {
     @SuppressWarnings("all")
     @Override
     public Object getFirst() {
+        if (first == null) {
+            return null;
+        }
         return first.element;
     }
 
     @SuppressWarnings("all")
     @Override
     public Object getLast() {
+        if (first == null) {
+            return null;
+        }
         return last.element;
     }
 
@@ -184,15 +190,13 @@ public class ListImpl implements List {
         return false;
     }
 
-    @SuppressWarnings("all")
     @Override
     public String toString() {
-
         StringBuilder stringBuilder = new StringBuilder("[");
 
         Iterator<Object> iterator = iterator();
         while (iterator.hasNext()) {
-            stringBuilder.append(iterator.next() + ", ");
+            stringBuilder.append(iterator.next()).append(",").append(" ");
         }
 
         if (stringBuilder.length() > 2) {

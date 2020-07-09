@@ -129,14 +129,13 @@ public class ArrayImpl implements Array {
         }
     }
 
-    @SuppressWarnings("all")
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder("[");
 
         Iterator<Object> iterator = iterator();
         while (iterator.hasNext()) {
-            stringBuilder.append(iterator.next() + ", ");
+            stringBuilder.append(iterator.next()).append(", ");
         }
 
         if (stringBuilder.length() > 2) {
