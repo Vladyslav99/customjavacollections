@@ -59,6 +59,13 @@ public class ArrayImpl implements Array {
             return elementData[cursor++];
         }
 
+        @Override
+        public void remove() {
+            if (!hasNext()) {
+                throw new NoSuchElementException();
+            }
+            ArrayImpl.this.remove(cursor);
+        }
     }
 
     @Override
@@ -126,8 +133,9 @@ public class ArrayImpl implements Array {
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder("[");
 
-        for (int i = 0; i < size; i++) {
-            stringBuilder.append(elementData[i] + ", ");
+        Iterator<Object> iterator = iterator();
+        while (iterator.hasNext()) {
+            stringBuilder.append(iterator.next() + ", ");
         }
 
         if (stringBuilder.length() > 2) {
@@ -137,13 +145,16 @@ public class ArrayImpl implements Array {
                     .trim();
         }
 
-
         return stringBuilder.append("]").toString();
     }
 
     @SuppressWarnings("all")
     public static void main(String[] args) {
-
+        Array array = new ArrayImpl();
+        for (int i = 0; i < 20; i++) {
+            array.add(i + 1);
+        }
+        System.out.println(array.toString());
     }
 
 }

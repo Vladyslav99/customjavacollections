@@ -49,21 +49,28 @@ public class StackImpl implements Stack {
             return elementData[--cursor];
         }
 
+        @Override
+        public void remove() {
+            if (!hasNext()) {
+                throw new NoSuchElementException();
+            }
+            cursor--;
+            StackImpl.this.pop();
+        }
     }
 
     @Override
     public void push(Object element) {
         if (top == elementData.length) {
-            expandSize();
+            resizeCapacity(elementData.length * 2);
         }
         elementData[top++] = element;
     }
 
-    private void expandSize() {
-        int newSize = (int) (elementData.length * 1.5);
+    private void resizeCapacity(int newCapacity) {
         Object[] tempElements = elementData;
-        elementData = new Object[newSize];
-        System.arraycopy(tempElements, 0, elementData, 0, tempElements.length);
+        elementData = new Object[newCapacity];
+        System.arraycopy(tempElements, 0, elementData, 0, top);
     }
 
     @Override
@@ -73,6 +80,9 @@ public class StackImpl implements Stack {
         }
         Object object = elementData[--top];
         elementData[top] = null;
+        if (top > 0 && top == elementData.length / 4) {
+            resizeCapacity(elementData.length / 2);
+        }
         return object;
     }
 
@@ -88,8 +98,9 @@ public class StackImpl implements Stack {
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder("[");
 
-        for (int i = 0; i < top; i++) {
-            stringBuilder.append(elementData[i] + ", ");
+        Iterator<Object> iterator = iterator();
+        while (iterator.hasNext()) {
+            stringBuilder.append(iterator.next() + ", ");
         }
 
         if (stringBuilder.length() > 2) {
@@ -104,8 +115,12 @@ public class StackImpl implements Stack {
 
     @SuppressWarnings("all")
     public static void main(String[] args) {
+        Stack stack = new StackImpl();
+        for (int i = 0; i < 20; i++) {
+            stack.push(i + 1);
+        }
 
-
+        System.out.println(stack.toString());
     }
 
 }

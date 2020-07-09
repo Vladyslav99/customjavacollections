@@ -69,6 +69,14 @@ public class ListImpl implements List {
             return temp.element;
         }
 
+        @Override
+        public void remove() {
+            if (!hasNext()) {
+                throw new NoSuchElementException();
+            }
+            next();
+            ListImpl.this.removeFirst();
+        }
     }
 
     @Override
@@ -163,9 +171,9 @@ public class ListImpl implements List {
                 currentNode = currentNode.next;
             }
         } else {
-            while (iterator.hasNext()){
+            while (iterator.hasNext()) {
                 Object currentObject = iterator.next();
-                if (element.equals(currentObject)){
+                if (element.equals(currentObject)) {
                     unlink(currentNode);
                     return true;
                 }
@@ -182,7 +190,6 @@ public class ListImpl implements List {
         StringBuilder stringBuilder = new StringBuilder("[");
 
         Iterator<Object> iterator = iterator();
-
         while (iterator.hasNext()) {
             stringBuilder.append(iterator.next() + ", ");
         }
@@ -244,6 +251,10 @@ public class ListImpl implements List {
 
     @SuppressWarnings("all")
     public static void main(String[] args) {
-
+        List list = new ListImpl();
+        for (int i = 0; i < 20; i++) {
+            list.addLast(i + 1);
+        }
+        System.out.println(list.toString());
     }
 }

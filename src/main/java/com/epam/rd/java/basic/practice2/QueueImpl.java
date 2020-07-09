@@ -5,7 +5,7 @@ import java.util.NoSuchElementException;
 
 public class QueueImpl implements Queue {
 
-    private static final int INITIAL_CAPACITY = 10;
+    private static final int INITIAL_CAPACITY = 16;
 
     private int total;
     private int first;
@@ -50,6 +50,13 @@ public class QueueImpl implements Queue {
             return elementData[(first + cursor++) % elementData.length];
         }
 
+        @Override
+        public void remove() {
+            if (!hasNext()) {
+                throw new NoSuchElementException();
+            }
+            QueueImpl.this.dequeue();
+        }
     }
 
     @Override
@@ -64,8 +71,8 @@ public class QueueImpl implements Queue {
         total++;
     }
 
-    private void resize(int capacity) {
-        Object[] tempElements = new Object[capacity];
+    private void resize(int newCapacity) {
+        Object[] tempElements = new Object[newCapacity];
 
         for (int i = 0; i < total; i++) {
             tempElements[i] = elementData[(first + i) % elementData.length];
@@ -106,8 +113,9 @@ public class QueueImpl implements Queue {
 
         StringBuilder stringBuilder = new StringBuilder("[");
 
-        for (int i = 0; i < total; i++) {
-            stringBuilder.append(elementData[(first + i) % elementData.length] + ", ");
+        Iterator<Object> iterator = iterator();
+        while (iterator.hasNext()) {
+            stringBuilder.append(iterator.next() + ", ");
         }
 
         if (stringBuilder.length() > 2) {
@@ -123,6 +131,11 @@ public class QueueImpl implements Queue {
 
     @SuppressWarnings("all")
     public static void main(String[] args) {
+        Queue queue = new QueueImpl();
+        for (int i = 0; i < 20; i++) {
+            queue.enqueue(i + 1);
+        }
+        System.out.println(queue.toString());
 
     }
 
