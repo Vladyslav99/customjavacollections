@@ -94,7 +94,6 @@ public class StackImpl implements Stack {
         return elementData[top - 1];
     }
 
-    @SuppressWarnings("all")
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder("[");
@@ -113,14 +112,8 @@ public class StackImpl implements Stack {
         return stringBuilder.append("]").toString();
     }
 
-    @SuppressWarnings("all")
     public static void main(String[] args) {
-        Stack stack = new StackImpl();
-        for (int i = 0; i < 20; i++) {
-            stack.push(i + 1);
-        }
-
-        System.out.println(stack.toString());
+        //StackImpl main
     }
 
 }

@@ -10,16 +10,19 @@ public class ListImpl implements List {
 
     private int size;
 
-    @SuppressWarnings("all")
     @Override
     public void clear() {
-        for (Node node = first; node != null; ) {
+
+        Node node = first;
+
+        while (node != null){
             Node next = node.next;
             node.prev = null;
             node.next = null;
             node.element = null;
             node = next;
         }
+
         first = last = null;
         size = 0;
     }
@@ -123,7 +126,6 @@ public class ListImpl implements List {
         unlinkLast(l);
     }
 
-    @SuppressWarnings("all")
     @Override
     public Object getFirst() {
         if (first == null) {
@@ -132,7 +134,6 @@ public class ListImpl implements List {
         return first.element;
     }
 
-    @SuppressWarnings("all")
     @Override
     public Object getLast() {
         if (first == null) {
@@ -255,12 +256,7 @@ public class ListImpl implements List {
         size--;
     }
 
-    @SuppressWarnings("all")
     public static void main(String[] args) {
-        List list = new ListImpl();
-        for (int i = 0; i < 20; i++) {
-            list.addLast(i + 1);
-        }
-        System.out.println(list.toString());
+        //ListImpl main
     }
 }

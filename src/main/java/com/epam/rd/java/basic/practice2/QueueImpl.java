@@ -129,14 +129,8 @@ public class QueueImpl implements Queue {
     }
 
 
-    @SuppressWarnings("all")
     public static void main(String[] args) {
-        Queue queue = new QueueImpl();
-        for (int i = 0; i < 20; i++) {
-            queue.enqueue(i + 1);
-        }
-        System.out.println(queue.toString());
-
+        //QueueImpl main
     }
 
 }

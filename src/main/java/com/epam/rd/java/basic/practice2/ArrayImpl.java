@@ -148,13 +148,9 @@ public class ArrayImpl implements Array {
         return stringBuilder.append("]").toString();
     }
 
-    @SuppressWarnings("all")
+
     public static void main(String[] args) {
-        Array array = new ArrayImpl();
-        for (int i = 0; i < 20; i++) {
-            array.add(i + 1);
-        }
-        System.out.println(array.toString());
+        //ArrayImpl main
     }
 
 }
